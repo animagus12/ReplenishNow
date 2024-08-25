@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalogue - MyStore</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background: url('../assets/images/groceries.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    color: #3333;
+    margin: 0;
+    padding: 0;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* 30% opacity black overlay */
+    z-index: 1;
+}
+
+body * {
+    position: relative;
+    z-index: 2; /* Ensure content is above the overlay */
+}
+
+
+        /* Header Styles */
+        header {
+            background-color: #1db954;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ccc;
+        }
+
+        /* Main Content Styles */
+        .container {
+            margin-top: 40px;
+        }
+        .search-bar {
+            margin-bottom: 30px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .scroll-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+        }
+        .scroll-container .product {
+            display: inline-block;
+            width: 200px;
+            margin-right: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 10px;
+        }
+        .scroll-container .product img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .scroll-container .product h4 {
+            font-size: 1rem;
+            color: #333;
+        }
+        .scroll-container .product p {
+            color: #555;
+        }
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #1db954;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="prodcat.html">Replenish</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="subscription.html">Subscription</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input id="search-input" type="text" placeholder="Search for products...">
+        </div>
+
+        <h3 style="color: white;">Subscriptions</h3>
+        <div id="top-products" class="scroll-container" style="display: flex; gap: 20px;">
+            <!-- Card for Basic Plan -->
+            <div class="subscription-card" style="background-color: #333; padding: 20px; flex: 1;">
+                <h4 style="color: white;">Basic Plan</h4>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="color: white;">Milk - $10.00 (Weekly)</li>
+                    <li style="color: white;">Bread - $20.00 (Daily)</li>
+                    <li style="color: white;">Eggs - $20.00 (Weekly)</li>
+                </ul>
+            </div>
+        
+            <!-- Card for Premium Plan -->
+            <div class="subscription-card" style="background-color: #333; padding: 20px; flex: 1;">
+                <h4 style="color: white;">Premium Plan </h4>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="color: white;">Tomato Sauce - $15.00 (Weekly)</li>
+                    <li style="color: white;">Rice - $20.00 (Monthly)</li>
+                    <li style="color: white;">Pasta - $25.00 (Monthly)</li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <!-- Featured Products -->
+        <h3 style="color: white;">Featured Products</h3>
+        <div id="featured-products" class="scroll-container">
+            <div class="product" data-name="Milk">
+                <img src="../assets/images/milk.jpg" alt="Milk" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Milk</h4>
+                <p>$10.00</p>
+            </div>            
+            <div class="product" data-name="Tomato Sauce">
+                <img src="../assets/images/sauce.jpg" alt="Sauce" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Tomato Sauce</h4>
+                <p>$15.00</p>
+            </div>
+            <div class="product" data-name="Eggs">
+                <img src="../assets/images/eggs.jpg" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Eggs</h4>
+                <p>$20.00</p>
+            </div>
+            <div class="product" data-name="Bread">
+                <img src="../assets/images/bread.jpg" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Bread</h4>
+                <p>$20.00</p>
+            </div>
+            <div class="product" data-name="Rice">
+                <img src="../assets/images/rice.jpg" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Rice</h4>
+                <p>$20.00</p>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
+
+        <!-- Top Products -->
+        <h3 style="color: white;">Top Products</h3>
+        <div id="top-products" class="scroll-container">
+            <div class="product" data-name="Pasta">
+                <img src="../assets/images/pasta.jpg" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Pasta</h4>
+                <p>$25.00</p>
+            </div>
+            <div class="product" data-name="Cheese">
+                <img src="../assets/images/cheese.jpg" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Cheese</h4>
+                <p>$30.00</p>
+            </div>
+            <div class="product" data-name="Spices">
+                <img src="../assets/images/spices.webp" alt="Eggs" style="width: 200px; height: 200px; object-fit: contain;">
+                <h4>Spices</h4>
+                <p>$35.00</p>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom Script for Search Functionality -->
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const productName = product.getAttribute('data-name').toLowerCase();
+                if (productName.includes(query)) {
+                    product.style.display = 'inline-block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

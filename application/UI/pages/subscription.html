@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa; /* Light grey background from profile page */
+      color: #333; /* Darker text color */
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: #1db954; /* Green color from profile page */
+      color: #fff; /* White text */
+      padding: 20px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0;
+      color: #fff; /* Match the header text with the logo text color */
+    }
+
+    .header .nav-buttons a {
+      color: #fff; /* White text */
+      background-color: #1db954; /* Green background */
+      border-radius: 5px;
+      padding: 10px 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .header .nav-buttons a:hover {
+      background-color: #148c3a; /* Slightly darker green on hover */
+    }
+
+    .container {
+      margin-top: 50px;
+      max-width: 1200px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #1db954; /* Green headers */
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .subscription-plan {
+      background-color: #fff; /* White background for plans */
+      padding: 20px;
+      border-radius: 10px; /* Rounded corners */
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+
+    .subscription-plan h4 {
+      color: #1db954; /* Green text for plan titles */
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .subscription-plan p {
+      margin-bottom: 10px;
+      color: #555; /* Slightly darker text */
+    }
+
+    .subscription-plan ul li {
+      background-color: #f8f9fa; /* Light grey list items */
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      color: #333; /* Darker text */
+    }
+
+    .subscription-plan .form-control {
+      background-color: #f8f9fa; /* Light grey input backgrounds */
+      color: #333; /* Darker text */
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-primary {
+      background-color: #1db954; /* Green button */
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #148c3a; /* Slightly darker green on hover */
+    }
+
+    #products label {
+      margin-left: 5px;
+      color: #333; /* Darker label text */
+    }
+
+    #totalPrice {
+      font-weight: bold;
+      color: #1db954; /* Green total price text */
+    }
+
+    @media (min-width: 768px) {
+      .subscription-plan {
+        margin-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1 class="font-siz" style="font-size: 1.4rem;">Subscription Plans</h1>
+</div>
+
+<div class="container">
+  <h2>Available Subscription Plans</h2>
+  <div class="row mb-4" id="existingSubscriptions">
+    <!-- Subscription plans will be displayed here -->
+  </div>
+</div>
+
+<script>
+  const existingSubscriptions = [
+    {
+      name: 'Basic Plan',
+      products: [
+        { name: 'Milk', price: 10.00 },
+        { name: 'Bread', price: 20.00 },
+        { name: 'Eggs', price: 20.00 },
+      ],
+      duration: 'weekly'
+    },
+    {
+      name: 'Premium Plan',
+      products: [
+      { name: 'Tomato Sauce', price: 15.00 },
+        { name: 'Rice', price: 20.00 },
+        { name: 'Pasta', price: 25.00 }
+      ],
+      duration: 'monthly'
+    }
+  ];
+
+  function renderSubscriptions() {
+    const container = document.getElementById('existingSubscriptions');
+    container.innerHTML = '';
+
+    existingSubscriptions.forEach((sub, index) => {
+      const div = document.createElement('div');
+      div.classList.add('col-md-6', 'mb-3');
+      div.innerHTML = `
+        <div class="subscription-plan">
+          <h4>${sub.name}</h4>
+          <p><strong>Products:</strong></p>
+          <ul>${sub.products.map(p => `<li>${p.name} - $${p.price.toFixed(2)}</li>`).join('')}</ul>
+          <button class="btn btn-primary" onclick="addToCart(${index})">Add to Cart</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function calculateTotalPrice(selectedProducts) {
+    let total = 0;
+    selectedProducts.forEach(p => {
+      total += p.price;
+    });
+    return total.toFixed(2);
+  }
+
+  function addToCart(index) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const selectedSubscription = existingSubscriptions[index];
+    selectedSubscription.totalPrice = calculateTotalPrice(selectedSubscription.products);
+    cart.push(selectedSubscription);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.location.href = 'cart.html';
+  }
+
+  function updateDuration(index) {
+    const newDuration = document.getElementById(`duration-${index}`).value;
+    existingSubscriptions[index].duration = newDuration;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    renderSubscriptions();
+  });
+</script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

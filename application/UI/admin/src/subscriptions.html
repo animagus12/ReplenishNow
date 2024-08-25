@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Subscriptions</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/feather/feather.css">
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="assets/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+
+    <style>
+        .badge {
+            cursor: pointer;
+        }
+
+        .edit-mode {
+            background-color: #f9f9f9;
+            padding: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        td {
+            width: auto;
+            max-width: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        select.edit-mode,
+        input.edit-mode {
+            width: 100%;
+        }
+
+        .product-list {
+            display: none;
+            /* Initially hide the product rows */
+        }
+
+        .expandable:hover {
+            cursor: pointer;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="with-welcome-text">
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+                <div class="me-3">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-bs-toggle="minimize">
+                        <span class="icon-menu"></span>
+                    </button>
+                </div>
+                <div>
+                    <a class="navbar-brand brand-logo" href="delivery.html">
+                        <img src="assets/images/logo.svg" alt="logo" />
+                    </a>
+                    <a class="navbar-brand brand-logo-mini" href="delivery.html">
+                        <img src="assets/images/logo-mini.svg" alt="logo" />
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-top">
+                <ul class="navbar-nav">
+                    <li class="nav-item fw-semibold d-none d-lg-block ms-0">
+                        <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">Admin</span></h1>
+                        <h3 class="welcome-sub-text">All your Subscriptions </h3>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown d-none d-lg-block">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
+                            aria-labelledby="messageDropdown">
+                            <a class="dropdown-item py-3">
+                                <p class="mb-0 fw-medium float-start">Select category</p>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-item-content flex-grow py-2">
+                                    <p class="preview-subject ellipsis fw-medium text-dark">Bootstrap Bundle </p>
+                                    <p class="fw-light small-text mb-0">This is a Bundle featuring 16 unique dashboards
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-item-content flex-grow py-2">
+                                    <p class="preview-subject ellipsis fw-medium text-dark">Angular Bundle</p>
+                                    <p class="fw-light small-text mb-0">Everything you’ll ever need for your Angular
+                                        projects</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-item-content flex-grow py-2">
+                                    <p class="preview-subject ellipsis fw-medium text-dark">VUE Bundle</p>
+                                    <p class="fw-light small-text mb-0">Bundle of 6 Premium Vue Admin Dashboard</p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-item-content flex-grow py-2">
+                                    <p class="preview-subject ellipsis fw-medium text-dark">React Bundle</p>
+                                    <p class="fw-light small-text mb-0">Bundle of 8 Premium React Admin Dashboard</p>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item d-none d-lg-block">
+                        <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
+                            <span class="input-group-addon input-group-prepend border-right">
+                                <span class="icon-calendar input-group-text calendar-icon"></span>
+                            </span>
+                            <input type="text" class="form-control">
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <form class="search-form" action="#">
+                            <i class="icon-search"></i>
+                            <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+                        </form>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
+                            aria-labelledby="notificationDropdown">
+                            <a class="dropdown-item py-3 border-bottom">
+                                <p class="mb-0 fw-medium float-start">You have 4 new notifications </p>
+                                <span class="badge badge-pill badge-primary float-end">View all</span>
+                            </a>
+                            <a class="dropdown-item preview-item py-3">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-alert m-auto text-primary"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject fw-normal text-dark mb-1">Application Error</h6>
+                                    <p class="fw-light small-text mb-0"> Just now </p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item py-3">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-lock-outline m-auto text-primary"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject fw-normal text-dark mb-1">Settings</h6>
+                                    <p class="fw-light small-text mb-0"> Private message </p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item py-3">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-airballoon m-auto text-primary"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject fw-normal text-dark mb-1">New user registration</h6>
+                                    <p class="fw-light small-text mb-0"> 2 days ago </p>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+                        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="img-xs rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                            <div class="dropdown-header text-center">
+                                <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg"
+                                    alt="Profile image">
+                                    <p class="mb-1 mt-3 fw-semibold">Subhrajit Panda</p>
+                                    <p class="fw-light text-muted mb-0">subhrajit.panda@gmail.com</p>
+                            </div>
+                            <a class="dropdown-item"><i
+                                    class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>
+                            <a class="dropdown-item"><i
+                                    class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-bs-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="delivery.html">
+                            <i class="mdi mdi-view-dashboard menu-icon"></i>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">
+                            <i class="mdi mdi-invoice-list menu-icon"></i>
+                            <span class="menu-title">Products</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="subscriptions.html">
+                            <i class="mdi mdi-arrange-bring-forward menu-icon"></i>
+                            <span class="menu-title">Subscriptions</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="OrderHistory.html">
+                            <i class="mdi mdi-clipboard-text-clock menu-icon"></i>
+                            <span class="menu-title">Order History</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel"
+                                        aria-labelledby="overview">
+                                        <div class="row">
+                                            <div class=" d-flex flex-column">
+                                                <div class="row flex-grow">
+                                                    <div class="col-12 grid-margin stretch-card">
+                                                        <div class="card card-rounded">
+                                                            <div class="card-body">
+                                                                <div
+                                                                    class="d-sm-flex justify-content-between align-items-start">
+                                                                    <div>
+                                                                        <h4 class="card-title card-title-dash">All
+                                                                            Subscriptions</h4>
+                                                                    </div>
+                                                                    <!-- Add New Subscription Button -->
+                                                                    <div>
+                                                                        <button id="add-subscription-btn"
+                                                                            class="btn btn-primary btn-lg text-white mb-0 me-0"
+                                                                            type="button">
+                                                                            <i class="mdi mdi-plus"></i>Add Subscription
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <!-- Modal Structure -->
+                                                                    <div id="addSubscriptionModal" class="modal fade"
+                                                                        tabindex="-1" role="dialog"
+                                                                        aria-labelledby="addSubscriptionModalLabel"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title"
+                                                                                        id="addSubscriptionModalLabel">
+                                                                                        Add New Subscription</h5>
+                                                                                    <button type="button"
+                                                                                        class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <form id="subscriptionForm">
+                                                                                        <div class="mb-3">
+                                                                                            <label
+                                                                                                for="subscriptionName"
+                                                                                                class="form-label">Subscription
+                                                                                                Name</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="subscriptionName"
+                                                                                                required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label
+                                                                                                for="subscriptionDescription"
+                                                                                                class="form-label">Subscription
+                                                                                                Description</label>
+                                                                                            <textarea
+                                                                                                class="form-control"
+                                                                                                id="subscriptionDescription"
+                                                                                                rows="3"
+                                                                                                required></textarea>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label
+                                                                                                for="subscriptionCategory"
+                                                                                                class="form-label">Subscription
+                                                                                                Category</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="subscriptionCategory"
+                                                                                                required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label
+                                                                                                class="form-label">Products</label>
+                                                                                            <div id="product-list">
+                                                                                                <!-- Static Product List -->
+                                                                                                <ul class="list-group">
+                                                                                                    <li
+                                                                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                                        Product A - ₹200
+                                                                                                        <button
+                                                                                                            type="button"
+                                                                                                            class="badge badge-success btn-sm add-product"
+                                                                                                            data-product-name="Product A"
+                                                                                                            data-product-price="200"><span
+                                                                                                                class="mdi mdi-plus"></span></button>
+                                                                                                    </li>
+                                                                                                    <li
+                                                                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                                        Product B - ₹300
+                                                                                                        <button
+                                                                                                            type="button"
+                                                                                                            class="badge badge-success btn-sm add-product"
+                                                                                                            data-product-name="Product B"
+                                                                                                            data-product-price="300"><span
+                                                                                                                class="mdi mdi-plus"></span></button>
+                                                                                                    </li>
+                                                                                                    <li
+                                                                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                                        Product C - ₹150
+                                                                                                        <button
+                                                                                                            type="button"
+                                                                                                            class="badge badge-success btn-sm add-product"
+                                                                                                            data-product-name="Product C"
+                                                                                                            data-product-price="150"><span
+                                                                                                                class="mdi mdi-plus"></span></button>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                            <div class="mt-3">
+                                                                                                <h6>Selected Products
+                                                                                                </h6>
+                                                                                                <ul id="selected-products"
+                                                                                                    class="list-group">
+                                                                                                    <!-- Selected products will be appended here -->
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary btn-lg text-white mb-0 me-0">Save
+                                                                                            Subscription</button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="table-responsive  mt-1">
+                                                                    <table class="table select-table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Price</th>
+                                                                                <th>Category</th>
+                                                                                <th>Status</th>
+                                                                                <th>Total Subbed</th>
+                                                                                <th>EDIT</th>
+                                                                                <th>DELETE</th>
+
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="expandable"
+                                                                                onclick="toggleProducts(this)">
+                                                                                <td>
+                                                                                    <div class="d-flex ">
+
+                                                                                        <div>
+                                                                                            <h6>Subscription 1</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>₹1245</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge badge-opacity-warning">
+                                                                                        Breakfast</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="">
+                                                                                        <div
+                                                                                            class="badge badge-opacity-danger">
+                                                                                            Inactive</div>
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>23</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success"
+                                                                                        onclick="editRowSub(this)"><i
+                                                                                            class="ti-pencil"></i></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-opacity-danger"
+                                                                                        onclick="deleteRow(this)">
+                                                                                        <i class="ti-trash"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="product-list">
+                                                                                <td colspan="7">
+                                                                                    <ul>
+                                                                                        <li>Product A - ₹200</li>
+                                                                                        <li>Product B - ₹300</li>
+                                                                                        <li>Product C - ₹150</li>
+                                                                                    </ul>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="expandable"
+                                                                                onclick="toggleProducts(this)">
+                                                                                <td>
+                                                                                    <div class="d-flex">
+
+                                                                                        <div>
+                                                                                            <h6>Subscription 2</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>₹2400</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge badge-opacity-warning">
+                                                                                        Furniture</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="">
+                                                                                        <div
+                                                                                            class="badge badge-opacity-success">
+                                                                                            Active</div>
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>45</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success"
+                                                                                        onclick="editRowSub(this)"><i
+                                                                                            class="ti-pencil"></i></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-opacity-danger"
+                                                                                        onclick="deleteRow(this)">
+                                                                                        <i class="ti-trash"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="product-list">
+                                                                                <td colspan="7">
+                                                                                    <ul>
+                                                                                        <li>Product A - ₹200</li>
+                                                                                        <li>Product B - ₹300</li>
+                                                                                        <li>Product C - ₹150</li>
+                                                                                    </ul>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="expandable"
+                                                                                onclick="toggleProducts(this)">
+                                                                                <td>
+                                                                                    <div class="d-flex">
+                                                                                        <div>
+                                                                                            <h6>Subscription 3</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>₹835</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge badge-opacity-warning">
+                                                                                        Daily Essentials</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="">
+                                                                                        <div
+                                                                                            class="badge badge-opacity-success">
+                                                                                            Active</div>
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>467</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success"
+                                                                                        onclick="editRowSub(this)"><i
+                                                                                            class="ti-pencil"></i></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-opacity-danger"
+                                                                                        onclick="deleteRow(this)">
+                                                                                        <i class="ti-trash"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="product-list">
+                                                                                <td colspan="7">
+                                                                                    <ul>
+                                                                                        <li>Product A - ₹200</li>
+                                                                                        <li>Product B - ₹300</li>
+                                                                                        <li>Product C - ₹150</li>
+                                                                                    </ul>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="expandable"
+                                                                                onclick="toggleProducts(this)">
+                                                                                <td>
+                                                                                    <div class="d-flex">
+                                                                                        <div>
+                                                                                            <h6>Subscription 4</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>₹800</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge badge-opacity-warning">
+                                                                                        Baby Care</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="">
+                                                                                        <div
+                                                                                            class="badge badge-opacity-success">
+                                                                                            Active</div>
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>346</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success"
+                                                                                        onclick="editRowSub(this)"><i
+                                                                                            class="ti-pencil"></i></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-opacity-danger"
+                                                                                        onclick="deleteRow(this)">
+                                                                                        <i class="ti-trash"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="product-list">
+                                                                                <td colspan="7">
+                                                                                    <ul>
+                                                                                        <li>Product A - ₹200</li>
+                                                                                        <li>Product B - ₹300</li>
+                                                                                        <li>Product C - ₹150</li>
+                                                                                    </ul>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="expandable"
+                                                                                onclick="toggleProducts(this)">
+                                                                                <td>
+                                                                                    <div class="d-flex">
+                                                                                        <div>
+                                                                                            <h6>Subscription 5</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>₹199</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge badge-opacity-warning">
+                                                                                        DIY</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="">
+                                                                                        <div
+                                                                                            class="badge badge-opacity-danger">
+                                                                                            Inactive</div>
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6>7</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-success"
+                                                                                        onclick="editRowSub(this)"><i
+                                                                                            class="ti-pencil"></i></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="badge badge-opacity-danger"
+                                                                                        onclick="deleteRow(this)">
+                                                                                        <i class="ti-trash"></i>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="product-list">
+                                                                                <td colspan="7">
+                                                                                    <ul>
+                                                                                        <li>Product A - ₹200</li>
+                                                                                        <li>Product B - ₹300</li>
+                                                                                        <li>Product C - ₹150</li>
+                                                                                    </ul>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">Copyright © 2024. All
+                            rights reserved.</span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
+    <!-- End custom js for this page-->
+
+
+    <script src="../src/js/admin.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+#### *1. Home Page*
+   - *Header*: 
+     - Logo on the left
+     - Navigation links (Home, About, Products, Contact) centered
+     - User login/register link on the right
+   - *Main Content*:
+     - Banner image with a call-to-action button (e.g., "Subscribe Now!")
+     - Featured products or subscription plans
+     - Customer testimonials
+   - *Footer*:
+     - Links to privacy policy, terms of service, and social media icons
+     - Contact information
+
+   - *Color Scheme*:
+     - *Background*: Light gray or white (#F5F5F5 or #FFFFFF)
+     - *Header/Footer*: Dark blue (#2C3E50) with white text
+     - *Buttons/CTAs*: Bright orange or green (#FF7F50 or #27AE60)
+     - *Text*: Dark gray or black (#333333 or #000000)
+
+#### *2. User Registration Page*
+   - *Form Fields*:
+     - Full Name, Email, Password, Confirm Password, Address, Phone Number
+     - Drop-down for subscription plan selection
+   - *Validation*:
+     - Real-time validation with tooltips for guidance
+   - *Button*: 
+     - "Register" button at the bottom
+   - *Additional Links*: 
+     - Link to the login page for existing users
+
+   - *Color Scheme*:
+     - *Background*: White (#FFFFFF)
+     - *Form Fields*: Light gray with dark gray borders (#D3D3D3 for fields, #333333 for text)
+     - *Buttons*: Orange or green (#FF7F50 or #27AE60) with white text
+
+#### *3. Login Page*
+   - *Form Fields*:
+     - Email and Password
+   - *Validation*:
+     - Real-time validation with tooltips for incorrect input
+   - *Button*: 
+     - "Login" button
+   - *Additional Links*: 
+     - Link to registration page and "Forgot Password?"
+
+   - *Color Scheme*:
+     - *Background*: Light gray or white (#F5F5F5 or #FFFFFF)
+     - *Buttons*: Orange or green (#FF7F50 or #27AE60) with white text
+
+#### *4. Admin Main Page*
+   - *Navigation Panel*:
+     - Links to manage subscriptions, products, view orders, and reports
+   - *Dashboard*:
+     - Display of active/inactive subscriptions, recent orders, and stats
+   - *Content Area*:
+     - Sections for each action (Add/Update/Delete Products, View Orders, etc.)
+
+   - *Color Scheme*:
+     - *Background*: Light gray or white (#F5F5F5 or #FFFFFF)
+     - *Navigation Panel*: Dark blue (#2C3E50) with white text
+     - *Buttons/CTAs*: Orange or green (#FF7F50 or #27AE60)
+     - *Text*: Dark gray or black (#333333 or #000000)
+
+#### *5. Customer Main Page*
+   - *Navigation Panel*:
+     - Links to view/manage subscriptions, browse products, and view order history
+   - *Content Area*:
+     - Display current subscription details, option to modify/cancel, and browse new products
+
+   - *Color Scheme*:
+     - *Background*: Light gray or white (#F5F5F5 or #FFFFFF)
+     - *Navigation Panel*: Dark blue (#2C3E50) with white text
+     - *Buttons/CTAs*: Orange or green (#FF7F50 or #27AE60)
+     - *Text*: Dark gray or black (#333333 or #000000)
+
+### Wireframe Structure
+Please refer to the provided Wireframe.drawio file to structure the UI components based on these color schemes and design elements. The wireframe should include layout positioning for the header, footer, sidebars, and main content areas as discussed above.

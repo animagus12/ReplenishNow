@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - MyStore</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header and Footer Styles */
+        .header, .footer {
+            background-color: #1db954;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #1db954;
+            border-color: #1db954;
+        }
+        .btn-primary:hover {
+            background-color: #148c3a;
+            border-color: #148c3a;
+        }
+
+        /* Container Styles */
+        .container {
+            margin-top: 40px;
+        }
+
+        /* Payment Method Styles */
+        .payment-method {
+            margin-bottom: 20px;
+        }
+        .payment-details {
+            display: none;
+            margin-top: 10px;
+        }
+        .summary-section {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Payment Success and Thank You Messages */
+        .payment-success, .thank-you {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #1db954;
+            color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 24px;
+            z-index: 9999;
+        }
+        .thank-you {
+            background-color: #2980b9;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 5px;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaaaaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Checkout</h1>
+    </div>
+
+    <div class="container">
+        <h3>Payment Options</h3>
+        <form id="checkoutForm">
+            <div class="payment-method">
+                <input type="radio" name="payment" id="upi" value="upi" required>
+                <label for="upi">UPI Payment</label>
+                <div id="upiDetails" class="payment-details">
+                    <input type="text" class="form-control mt-2" id="upiId" placeholder="Enter UPI ID">
+                    <button type="button" class="btn btn-secondary mt-2" id="scanBtn">Scan QR Code</button>
+                </div>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="payment" id="creditCard" value="creditCard" required>
+                <label for="creditCard">Credit/Debit Card</label>
+                <div id="cardDetails" class="payment-details">
+                    <input type="text" class="form-control mt-2" placeholder="Card Number">
+                    <input type="text" class="form-control mt-2" placeholder="Expiry Date (MM/YY)">
+                    <input type="text" class="form-control mt-2" placeholder="CVC">
+                </div>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="payment" id="netBanking" value="netBanking" required>
+                <label for="netBanking">Net Banking</label>
+                <div id="netBankingDetails" class="payment-details">
+                    <input type="text" class="form-control mt-2" placeholder="Bank Name">
+                    <input type="text" class="form-control mt-2" placeholder="Account Number">
+                    <input type="text" class="form-control mt-2" placeholder="IFSC Code">
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h4>Order Summary</h4>
+                <p><strong>Product:</strong> Product 1</p>
+                <p><strong>Quantity:</strong> 2</p>
+                <p><strong>Total Price:</strong> $20</p>
+                <hr>
+                <h5>Shipping Address</h5>
+                <input type="text" id="address" class="form-control mt-2" placeholder="Enter your address" required>
+            </div>
+
+            <button type="submit" id="payBtn" class="btn btn-primary mt-4">Proceed to Pay</button>
+        </form>
+
+        <div id="paymentSuccess" class="payment-success">
+            Payment Successful! 🎉
+        </div>
+
+        <div id="thankYou" class="thank-you">
+            Thank you for shopping with us! 😊
+        </div>
+    </div>
+
+    <!-- Modal for Fake Scanner -->
+    <div id="fakeScannerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h5>Scanning QR Code...</h5>
+            <img src="https://via.placeholder.com/250" alt="QR Code" class="img-fluid">
+        </div>
+    </div>
+
+    <script>
+        // Show payment details based on the selected option
+        document.querySelectorAll('input[name="payment"]').forEach(paymentOption => {
+            paymentOption.addEventListener('change', function() {
+                document.querySelectorAll('.payment-details').forEach(details => details.style.display = 'none');
+                if (this.value === 'upi') {
+                    document.getElementById('upiDetails').style.display = 'block';
+                } else if (this.value === 'creditCard') {
+                    document.getElementById('cardDetails').style.display = 'block';
+                } else if (this.value === 'netBanking') {
+                    document.getElementById('netBankingDetails').style.display = 'block';
+                }
+            });
+        });
+
+        // Handle checkout form submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Show payment success message
+            const paymentSuccess = document.getElementById('paymentSuccess');
+            paymentSuccess.style.display = 'block';
+
+            // Clear the cart in localStorage
+            localStorage.removeItem('cart');
+
+            // Display thank you message after a delay
+            setTimeout(function() {
+                paymentSuccess.style.display = 'none';
+                const thankYou = document.getElementById('thankYou');
+                thankYou.style.display = 'block';
+
+                // Redirect to home or another page after showing the thank you message
+                setTimeout(function() {
+                    thankYou.style.display = 'none';
+                    window.location.href = 'prodcat.html'; // Redirect to prodcat.html
+                }, 3000);
+            }, 2000);
+        });
+
+        // Fake scanner for UPI payment
+        document.getElementById('scanBtn').addEventListener('click', function() {
+            const modal = document.getElementById('fakeScannerModal');
+            modal.style.display = 'block';
+        });
+
+        // Close the modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            const modal = document.getElementById('fakeScannerModal');
+            modal.style.display = 'none';
+        });
+
+        // Close the modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('fakeScannerModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

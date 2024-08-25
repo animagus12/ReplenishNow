@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - MyStore</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #1db954;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1db954;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #1db954;
+            border-color: #1db954;
+        }
+        .btn-primary:hover {
+            background-color: #148c3a;
+            border-color: #148c3a;
+        }
+
+        /* Container Styles */
+        .container {
+            margin-top: 40px;
+        }
+
+        /* Cart Item Styles */
+        .cart-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .cart-item h4 {
+            color: #1db954;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Shopping Cart</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Your Cart</h2>
+        <div id="cartItems">
+            <!-- Cart items will be displayed here -->
+        </div>
+        <button class="btn btn-primary mt-4" onclick="checkout()">Proceed to Checkout</button>
+    </div>
+
+    <script>
+        function renderCart() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartDiv = document.getElementById('cartItems');
+            cartDiv.innerHTML = '';
+
+            if (cartItems.length === 0) {
+                cartDiv.innerHTML = '<p>Your cart is empty.</p>';
+                return;
+            }
+
+            cartItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+
+                itemDiv.innerHTML = `
+                    <h4>${item.name}</h4>
+                    <p><strong>Products:</strong></p>
+                    <ul>${item.products.map(p => `<li>${p.name} - $${p.price.toFixed(2)}</li>`).join('')}</ul>
+                    <p><strong>Duration:</strong> ${item.duration}</p>
+                `;
+
+                cartDiv.appendChild(itemDiv);
+            });
+        }
+
+        function checkout() {
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

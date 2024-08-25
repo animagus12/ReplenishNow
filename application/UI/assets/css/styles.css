@@ -1,0 +1,35 @@
+/* styles.css */
+body {
+    background-color: #F5F5F5;
+    color: #333333;
+    font-family: Arial, sans-serif;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.main-content {
+    margin-top: 50px;
+}
+
+.btn-primary {
+    background-color: #FF7F50;
+    border: none;
+}
+
+.btn-success {
+    background-color: #27AE60;
+    border: none;
+}
+
+footer {
+    margin-top: 50px;
+}
